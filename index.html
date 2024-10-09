@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BHub Menu Card</title>
+    <style>
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            background-color: #FF3366;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        .dropdown {
+            margin-top: 10px;
+        }
+        .dropdown select {
+            width: 200px;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            background-color: white;
+            color: #333;
+            font-size: 1em;
+            cursor: pointer;
+            outline: none;
+        }
+        .menu-card {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 16px;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .category {
+            background-color: #FF3366;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 30px;
+            font-weight: 600;
+            border-radius: 30px;
+            display: inline-block;
+        }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .item:last-child {
+            border-bottom: none;
+        }
+        .item-name {
+            font-weight: 600;
+        }
+        .item-price {
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        .description {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>BHub Menu</h1>
+        <div class="dropdown">
+            <select id="category-select">
+                <option value="">Select a category</option>
+            </select>
+        </div>
+    </div>
+    <div class="menu-card" id="menu-container"></div>
+
+    <script>
+        const menuData = [
+            {
+                category: "SPECIAL SHAKES",
+                items: [
+                    { name: "Oreo Shake", price: 80 },
+                    { name: "KitKat Shake", price: 80 },
+                    { name: "Horlicks Shake", price: 80 }
+                ]
+            },
+            {
+                category: "MILK SHAKE",
+                items: [
+                    { name: "Banana", price: 55 },
+                    { name: "Mango", price: 90 },
+                    { name: "Chikku", price: 60 },
+                    { name: "Papaya", price: 60 },
+                    { name: "Pomegranate", price: 80 },
+                    { name: "Apple", price: 70 },
+                    { name: "Musk melon", price: 60 }
+                ]
+            },
+            {
+                category: "ICE TEA",
+                items: [
+                    { name: "Watermelon", price: 60 },
+                    { name: "Lychee", price: 60 },
+                    { name: "Peach", price: 60 }
+                ]
+            },
+            {
+                category: "LASSI",
+                items: [
+                    { name: "Sweet Lassi", price: 50 },
+                    { name: "Salted Lassi", price: 40 },
+                    { name: "Mint Lassi", price: 50 },
+                    { name: "Banana Lassi", price: 50 }
+                ]
+            },
+            {
+                category: "COFFEE",
+                items: [
+                    { name: "Cold coffee", price: 70 }
+                ]
+            },
+            {
+                category: "FRESHLY SQUEEZED",
+                items: [
+                    { name: "Orange", price: 100 },
+                    { name: "Mosambi", price: 100 },
+                    { name: "Pomegranate (seasonal)", price: 200 },
+                    { name: "Pineapple", price: 100 }
+                ]
+            },
+            {
+                category: "FRESH JUICE",
+                items: [
+                    { name: "Orange", price: 50 },
+                    { name: "Pomegranate (seasonal)", price: 70 },
+                    { name: "Water melon", price: 50 },
+                    { name: "Pineapple", price: 50 },
+                    { name: "Mosambi", price: 50 },
+                    { name: "Papaya", price: 50 },
+                    { name: "Musk melon", price: 50 },
+                    { name: "Grape", price: 50 },
+                    { name: "Carrot", price: 50 },
+                    { name: "Beetroot", price: 50 },
+                    { name: "Cucumber", price: 40 },
+                    { name: "Banana", price: 45 }
+                ]
+            },
+            {
+                category: "DESSERTS",
+                items: [
+                    { name: "Caramel custard with ice cream", price: 85 },
+                    { name: "Gudbad", price: 135 },
+                    { name: "Brownie gudbad", price: 150 },
+                    { name: "Brownie with ice cream", price: 90 },
+                    { name: "Brownie sandwich", price: 110 },
+                    { name: "Sizzling brownie", price: 120 },
+                    { name: "Fruits salad", price: 50 },
+                    { name: "Fruit salad with vanilla ice cream", price: 75 },
+                    { name: "Fruit salad with butter scotch ice cream", price: 85 },
+                    { name: "Cut fruit", price: 80 },
+                    { name: "CCP", price: 150 }
+                ]
+            },
+            {
+                category: "MOCKTAIL MENU",
+                items: [
+                    { name: "DORAEMON", price: 90, description: "Tropical blue coloured drink with the finish of coconut and banana in it" },
+                    { name: "BERRY DELIGHT", price: 100, description: "Creamy drink with blueberry and litchi flavour" },
+                    { name: "GREEN MONSTER", price: 80, description: "A combination of Kiwi and Pineapple" },
+                    { name: "CARIBBEAN DELIGHT", price: 75, description: "Creamy dessert drink with Mango and Pineapple flavours in it" },
+                    { name: "BLACK WIDOW", price: 60, description: "A refreshing fizzy drink flavoured with strawberries and Blueberries" },
+                    { name: "FRUIT PUNCH", price: 85, description: "A-blend of mix fruit and ice cream" },
+                    { name: "SAFFRON PARADISE", price: 100, description: "A Rich creamy drink flavoured with Kesar(Saffron)" },
+                    { name: "BUTTER BALL", price: 75, description: "A thick pineapple drink flavoured with butterscotch ice cream" }
+                ]
+            },
+            {
+                category: "ICE CREAM SHAKE",
+                items: [
+                    { name: "Vanilla", price: 80 },
+                    { name: "Strawberry", price: 80 },
+                    { name: "Chocolate", price: 90 },
+                    { name: "Butter scotch", price: 90 },
+                    { name: "Black current", price: 90 },
+                    { name: "Mango", price: 90 },
+                    { name: "Chikku", price: 90 },
+                    { name: "Litchi Rose", price: 80 }
+                ]
+            },
+            {
+                category: "PUDDING",
+                items: [
+                    { name: "Caramol Custard", price: 50 },
+                    { name: "Brownie", price: 60 },
+                    { name: "Pineapple Souffle", price: 50 },
+                    { name: "Roasted Almonds", price: 60 },
+                    { name: "Tender Coconut", price: 50 },
+                    { name: "Lychee", price: 50 },
+                    { name: "Custard Apple", price: 50 },
+                    { name: "Chikku", price: 50 }
+                ]
+            },
+            {
+                category: "SODA",
+                items: [
+                    { name: "Lime Soda", price: 40 },
+                    { name: "Ginger Soda", price: 45 },
+                    { name: "Masala Lime Soda", price: 45 },
+                    { name: "Fresh Lime Juice", price: 30 },
+                    { name: "Mint Lime Juice", price: 40 }
+                ]
+            },
+            {
+                category: "MOJITO",
+                items: [
+                    { name: "Vergin mojito", price: 80 },
+                    { name: "Watermelon mojito", price: 90 },
+                    { name: "Orange mojito", price: 90 }
+                ]
+            },
+            {
+                category: "HEALTHY BEVERAGES",
+                items: [
+                    { name: "Peanut butter", price: 80 },
+                    { name: "ABC (apple, beetroot, carrot)", price: 80 },
+                    { name: "AOP (apple, orange, pineapple)", price: 80 }
+                ]
+            }
+        ];
+
+        function renderMenu() {
+            const menuContainer = document.getElementById('menu-container');
+            const categorySelect = document.getElementById('category-select');
+
+            menuData.forEach(category => {
+                const categoryElement = document.createElement('div');
+                categoryElement.className = 'category';
+                categoryElement.id = category.category.replace(/\s+/g, '-').toLowerCase();
+                categoryElement.textContent = category.category;
+                menuContainer.appendChild(categoryElement);
+
+                const option = document.createElement('option');
+                option.value = categoryElement.id;
+                option.textContent = category.category;
+                categorySelect.appendChild(option);
+
+                category.items.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'item';
+                    itemElement.innerHTML = `
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-price">${item.price}/-</span>
+                    `;
+                    menuContainer.appendChild(itemElement);
+
+                    if (item.description) {
+                        const descriptionElement = document.createElement('div');
+                        descriptionElement.className = 'description';
+                        descriptionElement.textContent = item.description;
+                        menuContainer.appendChild(descriptionElement);
+                    }
+                });
+            });
+        }
+
+        function scrollToCategory(categoryId) {
+            const element = document.getElementById(categoryId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center',
+            inline: 'center' });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenu();
+
+            const categorySelect = document.getElementById('category-select');
+            categorySelect.addEventListener('change', (event) => {
+                scrollToCategory(event.target.value);
+            });
+        });
+    </script>
+</body>
+</html>
